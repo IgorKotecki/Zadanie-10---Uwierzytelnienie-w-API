@@ -24,13 +24,12 @@ public class AuthContoller : ControllerBase
     }
     [AllowAnonymous]
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest model)
+    public IActionResult Register(LoginRequest loginRequest)
     {
-        var hashedPasswordAndSalt = SecurityHelpers.GetHashedPasswordAndSalt(model.Password);
+        var hashedPasswordAndSalt = SecurityHelpers.GetHashedPasswordAndSalt(loginRequest.Password);
 
         var user = new User()
         {
-            Login = model.Login,
             Password = hashedPasswordAndSalt.Item1,
             Salt = hashedPasswordAndSalt.Item2,
             RefreshToken = SecurityHelpers.GenerateRefreshToken(),
